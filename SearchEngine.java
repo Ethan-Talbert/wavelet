@@ -13,15 +13,22 @@ class Handler implements URLHandler {
         } else if (url.getPath().contains("/add")) {
             String[] parameters = url.getQuery().split("=");
             if (parameters[0].equals("s")) {
+                if (parameters.length == 1) {
+                    return "Please specify a word to add!";
+                }
                 dictionary.add(parameters[1]);
                 return String.format("%s added to the dictionary!", parameters[1]);
             }
         } else if (url.getPath().contains("/search")) {
             String[] parameters = url.getQuery().split("=");
             if (parameters[0].equals("s")) {
+                String searchTerm = "";
+                if (parameters.length != 1) {
+                    searchTerm = parameters[1];
+                }
                 ArrayList<String> temp = new ArrayList<String>();
                 for (int i = 0; i < dictionary.size(); i ++) {
-                    if (dictionary.get(i).contains(parameters[1])) {
+                    if (dictionary.get(i).contains(searchTerm)) {
                         temp.add(dictionary.get(i));
                     }
                 }
@@ -32,6 +39,9 @@ class Handler implements URLHandler {
     }
 
     public String formatArrayList(ArrayList array) {
+        if (array.size() == 0) {
+            return "No matches found!";
+        }
         String str = "Matches: ";
         for (int i = 0; i < array.size(); i ++) {
             str += array.get(i);
