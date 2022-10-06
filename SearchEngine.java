@@ -12,6 +12,7 @@ class Handler implements URLHandler {
             return String.format("Welcome to the search engine! There are currently %d items stored.", dictionary.size());
         } else if (url.getPath().contains("/add")) {
             String[] parameters = url.getQuery().split("=");
+
             if (parameters[0].equals("s")) {
                 if (parameters.length == 1) {
                     return "Please specify a word to add!";
@@ -21,11 +22,13 @@ class Handler implements URLHandler {
             }
         } else if (url.getPath().contains("/search")) {
             String[] parameters = url.getQuery().split("=");
+
             if (parameters[0].equals("s")) {
                 String searchTerm = "";
                 if (parameters.length != 1) {
                     searchTerm = parameters[1];
                 }
+
                 ArrayList<String> temp = new ArrayList<String>();
                 for (int i = 0; i < dictionary.size(); i ++) {
                     if (dictionary.get(i).contains(searchTerm)) {
@@ -39,16 +42,19 @@ class Handler implements URLHandler {
     }
 
     public String formatArrayList(ArrayList array) {
+        // Formats the search array for the Handler class into readable text.
         if (array.size() == 0) {
             return "No matches found!";
         }
         String str = "Matches: ";
+
         for (int i = 0; i < array.size(); i ++) {
             str += array.get(i);
             if (i < array.size() - 1) {
                 str += ", ";
             }
         }
+
         return str;
     }
 }
